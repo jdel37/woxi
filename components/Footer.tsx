@@ -39,7 +39,6 @@ export default function Footer() {
 
   return (
     <footer
-      id="contacto"
       className="bg-neutral-950 border-t border-white/5"
       role="contentinfo"
       aria-label="Pie de página"

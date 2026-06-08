@@ -11,7 +11,7 @@ export default function Carousel3D() {
   const project = {
     title: "D2F Consulting Agency",
     category: t.portfolio_category,
-    image: "/project-d2f.png",
+    image: "/project-corporate.png",
     description: t.portfolio_desc,
     url: "https://www.d2fgestion.com",
     tags: ["Diseño Web", "SEO", "Rendimiento"],

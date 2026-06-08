@@ -15,28 +15,28 @@ import { useI18n, convertFromCOP, formatMoney } from "@/lib/i18n";
 // ─── Pricing tables (base COP) ────────────────────────────────────────────────
 // Rates: ~$50,000 COP/h junior · ~$90,000 COP/h mid · market margin included
 const SITE_PRICES: Record<string, number> = {
-  landing:   2500000,  // ~20-30h design+dev+SEO setup
-  corporate: 5000000,  // ~40-60h multi-page + CMS
-  ecommerce: 8500000,  // ~70-100h shop + catalog + checkout flow
-  restaurant:4000000,  // ~30-45h menu + reservations UX
-  custom:    5500000,  // baseline for unknown scope
+  landing:    1250000,
+  corporate:  2500000,
+  ecommerce:  4250000,
+  restaurant: 2000000,
+  custom:     2750000,
 };
 
 const PAGE_EXTRAS: Record<string, number> = {
-  "1-3":  0,        // included in base
-  "4-6":  800000,   // ~8h extra pages
-  "7-10": 1800000,  // ~18h
-  "10+":  3500000,  // ~35h+
+  "1-3":  0,
+  "4-6":  400000,
+  "7-10": 900000,
+  "10+":  1750000,
 };
 
 const FEATURE_PRICES: Record<string, number> = {
-  blog:      900000,   // ~10h setup + templates
-  payments:  2200000,  // ~25h gateway integration + security
-  booking:   1500000,  // ~18h calendar + availability logic
-  chat:      400000,   // ~5h plugin config + branding
-  multilang: 1200000,  // ~14h i18n architecture + translations
-  portal:    3000000,  // ~35h auth + dashboard + roles
-  seo:       1000000,  // ~12h technical SEO + structured data
+  blog:      450000,
+  payments:  1100000,
+  booking:   750000,
+  chat:      200000,
+  multilang: 600000,
+  portal:    1500000,
+  seo:       500000,
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -142,7 +142,7 @@ export default function QuoteForm() {
       (acc, f) => acc + (FEATURE_PRICES[f] ?? 0),
       0
     );
-    const content = form.contentStatus === "no" ? 1500000 : 0;
+    const content = form.contentStatus === "no" ? 750000 : 0;
     let total = base + pages + feats + content;
     if (form.urgency === "urgent") total = Math.round(total * 1.35);
     return { min: Math.round(total * 0.9), max: Math.round(total * 1.15) };

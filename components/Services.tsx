@@ -102,9 +102,9 @@ export default function Services() {
           role="list"
           aria-label="Lista de servicios"
         >
-          {services.map((service) => (
+          {services.map((service, i) => (
             <motion.article
-              key={service.title}
+              key={i}
               variants={cardVariants}
               role="listitem"
               className="group relative bg-white border border-neutral-100 rounded-2xl p-6 lg:p-8 hover:border-orange-200 hover:shadow-xl hover:shadow-orange-50 transition-all duration-300 cursor-default overflow-hidden"
@@ -139,9 +139,9 @@ export default function Services() {
 
                 {/* Features tags */}
                 <ul className="flex flex-wrap gap-2" aria-label={`Características de ${service.title}`}>
-                  {service.features.map((f) => (
+                  {service.features.map((f, fi) => (
                     <li
-                      key={f}
+                      key={fi}
                       className="px-3 py-1 text-xs font-medium rounded-full bg-neutral-100 text-neutral-600 group-hover:bg-orange-50 group-hover:text-orange-600 transition-colors duration-300"
                     >
                       {f}

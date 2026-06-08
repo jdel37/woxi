@@ -12,30 +12,31 @@ import {
 } from "lucide-react";
 import { useI18n, convertFromCOP, formatMoney } from "@/lib/i18n";
 
-// ─── Pricing tables ───────────────────────────────────────────────────────────
+// ─── Pricing tables (base COP) ────────────────────────────────────────────────
+// Rates: ~$50,000 COP/h junior · ~$90,000 COP/h mid · market margin included
 const SITE_PRICES: Record<string, number> = {
-  landing: 1200000,
-  corporate: 2800000,
-  ecommerce: 4500000,
-  restaurant: 2200000,
-  custom: 2500000,
+  landing:   2500000,  // ~20-30h design+dev+SEO setup
+  corporate: 5000000,  // ~40-60h multi-page + CMS
+  ecommerce: 8500000,  // ~70-100h shop + catalog + checkout flow
+  restaurant:4000000,  // ~30-45h menu + reservations UX
+  custom:    5500000,  // baseline for unknown scope
 };
 
 const PAGE_EXTRAS: Record<string, number> = {
-  "1-3": 0,
-  "4-6": 500000,
-  "7-10": 1000000,
-  "10+": 2000000,
+  "1-3":  0,        // included in base
+  "4-6":  800000,   // ~8h extra pages
+  "7-10": 1800000,  // ~18h
+  "10+":  3500000,  // ~35h+
 };
 
 const FEATURE_PRICES: Record<string, number> = {
-  blog: 600000,
-  payments: 1500000,
-  booking: 900000,
-  chat: 300000,
-  multilang: 700000,
-  portal: 1500000,
-  seo: 500000,
+  blog:      900000,   // ~10h setup + templates
+  payments:  2200000,  // ~25h gateway integration + security
+  booking:   1500000,  // ~18h calendar + availability logic
+  chat:      400000,   // ~5h plugin config + branding
+  multilang: 1200000,  // ~14h i18n architecture + translations
+  portal:    3000000,  // ~35h auth + dashboard + roles
+  seo:       1000000,  // ~12h technical SEO + structured data
 };
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -141,9 +142,9 @@ export default function QuoteForm() {
       (acc, f) => acc + (FEATURE_PRICES[f] ?? 0),
       0
     );
-    const content = form.contentStatus === "no" ? 600000 : 0;
+    const content = form.contentStatus === "no" ? 1500000 : 0;
     let total = base + pages + feats + content;
-    if (form.urgency === "urgent") total = Math.round(total * 1.3);
+    if (form.urgency === "urgent") total = Math.round(total * 1.35);
     return { min: Math.round(total * 0.9), max: Math.round(total * 1.15) };
   }, [form]);
 
@@ -175,31 +176,80 @@ export default function QuoteForm() {
 
   if (status === "success") {
     return (
-      <section id="contacto" className="py-24 bg-white">
+      <section id="contacto" className="py-24 bg-neutral-50">
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
+          initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.4 }}
           className="max-w-lg mx-auto px-4 text-center"
         >
-          <div className="w-20 h-20 rounded-full bg-orange-50 flex items-center justify-center mx-auto mb-6">
-            <CheckCircle className="w-10 h-10 text-orange-500" />
+          {/* Animated checkmark */}
+          <div className="flex justify-center mb-6">
+            <motion.svg
+              viewBox="0 0 52 52"
+              className="w-24 h-24"
+              initial="hidden"
+              animate="visible"
+            >
+              <motion.circle
+                cx="26" cy="26" r="24"
+                fill="none"
+                stroke="#f97316"
+                strokeWidth="2.5"
+                variants={{
+                  hidden: { pathLength: 0, opacity: 0 },
+                  visible: { pathLength: 1, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
+                }}
+              />
+              <motion.path
+                d="M14 26.5 L22 34.5 L38 19"
+                fill="none"
+                stroke="#f97316"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                variants={{
+                  hidden: { pathLength: 0, opacity: 0 },
+                  visible: { pathLength: 1, opacity: 1, transition: { duration: 0.4, delay: 0.55, ease: "easeOut" } },
+                }}
+              />
+            </motion.svg>
           </div>
-          <h3 className="text-2xl font-extrabold text-neutral-900 mb-2">
-            {t.quote_success_title}
-          </h3>
-          <p className="text-neutral-600 mb-6">
-            {t.quote_success_sub}
-          </p>
-          {estimate && (
-            <div className="p-5 bg-orange-50 rounded-2xl border border-orange-100">
-              <p className="text-xs font-semibold text-orange-600 uppercase tracking-wider mb-1">
-                {t.quote_success_estimate}
-              </p>
-              <p className="text-2xl font-extrabold text-neutral-900">
-                {formatPrice(estimate.min)} — {formatPrice(estimate.max)}
-              </p>
-            </div>
-          )}
+
+          <motion.div
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+          >
+            <h3 className="text-2xl font-extrabold text-neutral-900 mb-2">
+              {t.quote_success_title}
+            </h3>
+            <p className="text-neutral-600 mb-6">
+              {t.quote_success_sub}
+            </p>
+
+            {estimate && (
+              <div className="p-5 bg-orange-50 rounded-2xl border border-orange-100 mb-6">
+                <p className="text-xs font-semibold text-orange-600 uppercase tracking-wider mb-1">
+                  {t.quote_success_estimate}
+                </p>
+                <p className="text-2xl font-extrabold text-neutral-900">
+                  {formatPrice(estimate.min)} — {formatPrice(estimate.max)}
+                </p>
+              </div>
+            )}
+
+            <button
+              onClick={() => {
+                setStatus("idle");
+                setForm(INITIAL);
+                setStep(1);
+              }}
+              className="px-6 py-3 rounded-xl border border-orange-300 text-orange-500 font-semibold text-sm hover:bg-orange-50 transition-colors cursor-pointer"
+            >
+              {t.quote_send_another ?? "Enviar otra cotización"}
+            </button>
+          </motion.div>
         </motion.div>
       </section>
     );

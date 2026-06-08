@@ -51,7 +51,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 lg:py-32">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 sm:py-16 lg:py-32">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left — Text */}
           <div>
@@ -167,7 +167,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 0.8 }}
-                className="absolute -bottom-4 -left-4 sm:-left-8 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-neutral-100"
+                className="absolute -bottom-4 -left-4 sm:-left-8 hidden sm:flex bg-white rounded-2xl shadow-xl p-4 items-center gap-3 border border-neutral-100"
               >
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
                   <Zap className="w-5 h-5 text-orange-500" />
@@ -182,7 +182,7 @@ export default function Hero() {
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.0 }}
-                className="absolute -top-4 -right-2 sm:-right-6 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-neutral-100"
+                className="absolute -top-4 -right-2 sm:-right-6 hidden sm:flex bg-white rounded-2xl shadow-xl p-4 items-center gap-3 border border-neutral-100"
               >
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
                   <TrendingUp className="w-5 h-5 text-orange-500" />

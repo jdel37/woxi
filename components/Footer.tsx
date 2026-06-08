@@ -69,14 +69,14 @@ export default function Footer() {
                 <a
                   key={c.text}
                   href={c.href}
-                  className="flex items-center gap-2 text-neutral-500 hover:text-orange-400 text-sm transition-colors group"
+                  className="flex items-center gap-2 text-neutral-500 hover:text-orange-400 text-sm transition-colors group min-w-0"
                   aria-label={c.text}
                 >
                   <c.icon
                     className="w-4 h-4 text-orange-500/60 group-hover:text-orange-400 transition-colors shrink-0"
                     aria-hidden="true"
                   />
-                  {c.text}
+                  <span className="break-all">{c.text}</span>
                 </a>
               ))}
             </address>

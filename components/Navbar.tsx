@@ -60,7 +60,7 @@ export default function Navbar() {
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        scrolled
+        scrolled || isOpen
           ? "nav-blur bg-white/90 shadow-sm border-b border-neutral-100"
           : "bg-transparent"
       }`}

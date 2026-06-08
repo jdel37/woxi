@@ -66,7 +66,7 @@ export default function Benefits() {
         </motion.div>
 
         {/* Alternating rows */}
-        <div className="space-y-24">
+        <div className="space-y-16 lg:space-y-24">
           {benefits.map((b, i) => (
             <motion.div
               key={b.tag}

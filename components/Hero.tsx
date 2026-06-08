@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { ArrowRight, Play, CheckCircle } from "lucide-react";
+import { ArrowRight, Play, CheckCircle, Zap, TrendingUp } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 export default function Hero() {
@@ -21,35 +21,33 @@ export default function Hero() {
       className="relative min-h-screen flex items-center overflow-hidden bg-white pt-20"
       aria-label="Sección principal"
     >
-      {/* Background decoration */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        aria-hidden="true"
-      >
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-orange-50 via-orange-50/30 to-transparent" />
-        <div className="absolute -top-40 -right-40 w-96 h-96 rounded-full bg-orange-100/60 blur-3xl" />
-        <div className="absolute top-1/2 left-1/4 w-64 h-64 rounded-full bg-orange-50/80 blur-3xl" />
-        {/* Grid pattern */}
-        <svg
-          className="absolute inset-0 w-full h-full opacity-[0.03]"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <defs>
-            <pattern
-              id="hero-grid"
-              width="60"
-              height="60"
-              patternUnits="userSpaceOnUse"
-            >
-              <path
-                d="M 60 0 L 0 0 0 60"
-                fill="none"
-                stroke="black"
-                strokeWidth="1"
-              />
-            </pattern>
-          </defs>
-          <rect width="100%" height="100%" fill="url(#hero-grid)" />
+      {/* Abstract background */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        {/* Soft warm tint */}
+        <div className="absolute top-0 right-0 w-2/3 h-full bg-gradient-to-bl from-orange-50/60 via-orange-50/20 to-transparent" />
+        {/* Abstract SVG — rayones chic */}
+        <svg className="absolute inset-0 w-full h-full" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+          {/* Large arc — top right */}
+          <circle cx="92%" cy="-5%" r="38%" fill="none" stroke="#f97316" strokeWidth="0.6" opacity="0.09" />
+          {/* Second arc offset */}
+          <circle cx="88%" cy="0%" r="52%" fill="none" stroke="#f97316" strokeWidth="0.4" opacity="0.05" />
+          {/* Bottom left arc */}
+          <circle cx="8%" cy="108%" r="34%" fill="none" stroke="#111" strokeWidth="0.5" opacity="0.04" />
+          {/* Diagonal strokes */}
+          <line x1="0%" y1="72%" x2="18%" y2="48%" stroke="#111" strokeWidth="0.7" opacity="0.05" />
+          <line x1="5%" y1="78%" x2="22%" y2="55%" stroke="#f97316" strokeWidth="0.4" opacity="0.07" />
+          <line x1="75%" y1="95%" x2="95%" y2="68%" stroke="#111" strokeWidth="0.6" opacity="0.04" />
+          <line x1="78%" y1="100%" x2="100%" y2="72%" stroke="#f97316" strokeWidth="0.4" opacity="0.06" />
+          {/* Short marks — scattered */}
+          <line x1="38%" y1="8%" x2="44%" y2="6%" stroke="#111" strokeWidth="1" opacity="0.06" strokeLinecap="round" />
+          <line x1="62%" y1="82%" x2="67%" y2="80%" stroke="#f97316" strokeWidth="1" opacity="0.08" strokeLinecap="round" />
+          <line x1="20%" y1="22%" x2="22%" y2="28%" stroke="#111" strokeWidth="0.8" opacity="0.05" strokeLinecap="round" />
+          <line x1="82%" y1="42%" x2="84%" y2="48%" stroke="#f97316" strokeWidth="0.8" opacity="0.07" strokeLinecap="round" />
+          {/* Tiny dots */}
+          <circle cx="52%" cy="18%" r="1.5" fill="#f97316" opacity="0.12" />
+          <circle cx="14%" cy="44%" r="1" fill="#111" opacity="0.08" />
+          <circle cx="88%" cy="78%" r="1.5" fill="#f97316" opacity="0.1" />
+          <circle cx="30%" cy="88%" r="1" fill="#111" opacity="0.06" />
         </svg>
       </div>
 
@@ -172,7 +170,7 @@ export default function Hero() {
                 className="absolute -bottom-4 -left-4 sm:-left-8 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-neutral-100"
               >
                 <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
-                  <span className="text-xl" aria-hidden="true">🚀</span>
+                  <Zap className="w-5 h-5 text-orange-500" />
                 </div>
                 <div>
                   <p className="text-xs text-neutral-500">{t.hero_speed}</p>
@@ -186,8 +184,8 @@ export default function Hero() {
                 transition={{ duration: 0.5, delay: 1.0 }}
                 className="absolute -top-4 -right-2 sm:-right-6 bg-white rounded-2xl shadow-xl p-4 flex items-center gap-3 border border-neutral-100"
               >
-                <div className="w-10 h-10 rounded-xl bg-green-50 flex items-center justify-center">
-                  <span className="text-xl" aria-hidden="true">📈</span>
+                <div className="w-10 h-10 rounded-xl bg-orange-50 flex items-center justify-center">
+                  <TrendingUp className="w-5 h-5 text-orange-500" />
                 </div>
                 <div>
                   <p className="text-xs text-neutral-500">{t.hero_conv}</p>

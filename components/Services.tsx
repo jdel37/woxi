@@ -7,6 +7,7 @@ import {
   Search,
   Bot,
   LayoutTemplate,
+  Sparkles,
 } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
@@ -166,7 +167,7 @@ export default function Services() {
               }}
             />
             <div className="relative">
-              <span className="text-3xl" aria-hidden="true">💡</span>
+              <Sparkles className="w-7 h-7 text-orange-400 mb-1" aria-hidden="true" />
               <h3 className="text-xl font-bold text-white mt-4 mb-2">
                 {t.services_idea}
               </h3>

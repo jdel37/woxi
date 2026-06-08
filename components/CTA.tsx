@@ -48,7 +48,7 @@ export default function CTA() {
           <div className="inline-flex items-center gap-2 px-4 py-2 mb-8 rounded-full bg-orange-500/10 border border-orange-500/20">
             <span className="w-2 h-2 rounded-full bg-orange-400 animate-pulse" aria-hidden="true" />
             <span className="text-orange-400 text-sm font-semibold">
-              🚀 {t.cta_tag}
+              {t.cta_tag}
             </span>
           </div>
 

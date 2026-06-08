@@ -25,7 +25,7 @@ export default function Benefits() {
       title: t.ben2_title,
       description: t.ben2_desc,
       points: [t.ben2_p1, t.ben2_p2, t.ben2_p3],
-      image: "/hero-mockup.png",
+      image: "/boost.png",
       imageAlt: "Panel de Lighthouse mostrando puntuaciones de rendimiento web",
       reverse: true,
     },

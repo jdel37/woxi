@@ -1,8 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 function formatCOP(n: number) {
   return new Intl.NumberFormat("es-CO", {
     style: "currency",
@@ -42,6 +40,7 @@ const contentLabels: Record<string, string> = {
 };
 
 export async function POST(req: NextRequest) {
+  const resend = new Resend(process.env.RESEND_API_KEY);
   try {
     const body = await req.json();
     const {

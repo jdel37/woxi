@@ -1,27 +1,7 @@
 "use client";
 
 import { Zap, Mail, Phone, MapPin } from "lucide-react";
-
-const footerLinks = {
-  Servicios: [
-    { label: "Diseño Web", href: "#servicios" },
-    { label: "Tiendas Online", href: "#servicios" },
-    { label: "SEO", href: "#servicios" },
-    { label: "Landing Pages", href: "#servicios" },
-    { label: "Automatización", href: "#servicios" },
-  ],
-  Empresa: [
-    { label: "Nosotros", href: "#nosotros" },
-    { label: "Portafolio", href: "#portafolio" },
-    { label: "Testimonios", href: "#" },
-    { label: "Blog", href: "#" },
-  ],
-  Legal: [
-    { label: "Política de Privacidad", href: "#" },
-    { label: "Términos de Servicio", href: "#" },
-    { label: "Cookies", href: "#" },
-  ],
-};
+import { useI18n } from "@/lib/i18n";
 
 const contactInfo = [
   { icon: Mail, text: "foreromorenojuandavid79@gmail.com", href: "mailto:foreromorenojuandavid79@gmail.com" },
@@ -30,6 +10,29 @@ const contactInfo = [
 ];
 
 export default function Footer() {
+  const { t } = useI18n();
+
+  const footerLinks = {
+    [t.footer_services]: [
+      { label: "Diseño Web", href: "#servicios" },
+      { label: "Tiendas Online", href: "#servicios" },
+      { label: "SEO", href: "#servicios" },
+      { label: "Landing Pages", href: "#servicios" },
+      { label: "Automatización", href: "#servicios" },
+    ],
+    [t.footer_company]: [
+      { label: t.footer_about, href: "#nosotros" },
+      { label: t.footer_portfolio, href: "#portafolio" },
+      { label: t.footer_testimonials, href: "#" },
+      { label: t.footer_blog, href: "#" },
+    ],
+    [t.footer_legal]: [
+      { label: t.footer_privacy, href: "#" },
+      { label: t.footer_terms, href: "#" },
+      { label: t.footer_cookies, href: "#" },
+    ],
+  };
+
   const handleNavClick = (href: string) => {
     if (href.startsWith("#")) {
       const el = document.querySelector(href);
@@ -57,8 +60,7 @@ export default function Footer() {
               </span>
             </div>
             <p className="text-neutral-500 text-sm leading-relaxed max-w-xs mb-6">
-              Creamos páginas web profesionales que convierten visitantes en
-              clientes. Diseño, desarrollo y SEO para hacer crecer tu negocio.
+              {t.footer_desc}
             </p>
 
             {/* Contact info */}
@@ -107,12 +109,12 @@ export default function Footer() {
         {/* Bottom bar */}
         <div className="py-6 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
           <p className="text-neutral-600 text-xs text-center sm:text-left">
-            &copy; {new Date().getFullYear()} Woxi. Todos los derechos reservados.
+            &copy; {new Date().getFullYear()} Woxi. {t.footer_rights}
           </p>
           <p className="text-neutral-600 text-xs">
-            Hecho con{" "}
+            {t.footer_made}{" "}
             <span className="text-orange-500" aria-label="amor">♥</span>{" "}
-            en Colombia 🇨🇴
+            {t.footer_in}
           </p>
         </div>
       </div>

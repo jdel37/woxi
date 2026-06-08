@@ -2,19 +2,7 @@
 
 import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
-
-const testimonial = {
-  name: "Diego Forero",
-  company: "D2F Consulting Agency",
-  role: "CEO & Fundador",
-  comment:
-    "Llevábamos años con una web que no representaba para nada lo que somos como empresa. Desde el primer día el equipo entendió nuestra propuesta: consultoría estratégica seria, con presencia digital a la altura. El resultado superó lo que esperábamos: más visibilidad, más consultas de calidad y, sobre todo, una imagen que ahora sí transmite confianza a nuestros clientes corporativos. En menos de dos meses notamos el cambio. Totalmente recomendados.",
-  rating: 5,
-  avatar: "DF",
-  avatarColor: "from-orange-400 to-amber-600",
-  highlight: "Presencia digital que genera confianza",
-  website: "d2fgestion.com",
-};
+import { useI18n } from "@/lib/i18n";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,6 +15,20 @@ const cardVariants = {
 };
 
 export default function Testimonials() {
+  const { t } = useI18n();
+
+  const testimonial = {
+    name: "Diego Forero",
+    company: "D2F Consulting Agency",
+    role: "CEO & Fundador",
+    comment: t.testimonials_comment,
+    rating: 5,
+    avatar: "DF",
+    avatarColor: "from-orange-400 to-amber-600",
+    highlight: t.testimonials_highlight,
+    website: "d2fgestion.com",
+  };
+
   return (
     <section
       className="py-24 lg:py-32 bg-white"
@@ -42,15 +44,14 @@ export default function Testimonials() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-medium mb-4">
-            Testimonios
+            {t.testimonials_tag}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900">
-            Lo que dicen nuestros{" "}
-            <span className="gradient-text">clientes</span>
+            {t.testimonials_h2a}{" "}
+            <span className="gradient-text">{t.testimonials_h2b}</span>
           </h2>
           <p className="mt-4 text-neutral-600 text-lg max-w-2xl mx-auto">
-            Resultados reales de negocios reales. La historia de éxito de quien
-            confió en nosotros.
+            {t.testimonials_sub}
           </p>
 
           {/* Stars */}
@@ -61,7 +62,7 @@ export default function Testimonials() {
               ))}
             </div>
             <span className="text-sm font-semibold text-neutral-800">5.0</span>
-            <span className="text-sm text-neutral-500">· Cliente verificado</span>
+            <span className="text-sm text-neutral-500">· {t.testimonials_verified}</span>
           </div>
         </motion.div>
 

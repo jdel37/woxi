@@ -8,49 +8,7 @@ import {
   Bot,
   LayoutTemplate,
 } from "lucide-react";
-
-const services = [
-  {
-    icon: Monitor,
-    title: "Diseño Web Profesional",
-    description:
-      "Creamos sitios web modernos, rápidos y optimizados que reflejan la esencia de tu marca y generan resultados reales.",
-    features: ["Mobile First", "Ultra rápido", "Diseño único"],
-    color: "orange",
-  },
-  {
-    icon: ShoppingCart,
-    title: "Tiendas Online",
-    description:
-      "E-commerce completo con gestión de inventario, pasarela de pagos segura y UX optimizada para maximizar tus ventas.",
-    features: ["Pagos seguros", "Panel admin", "Multi-producto"],
-    color: "orange",
-  },
-  {
-    icon: Search,
-    title: "SEO Avanzado",
-    description:
-      "Posicionamos tu negocio en los primeros resultados de Google con estrategias SEO técnicas y de contenido.",
-    features: ["SEO técnico", "Contenido", "Analytics"],
-    color: "orange",
-  },
-  {
-    icon: Bot,
-    title: "Automatización",
-    description:
-      "Automatizamos procesos repetitivos de tu negocio con integraciones inteligentes que ahorran tiempo y dinero.",
-    features: ["CRM integrado", "IA incluida", "Workflows"],
-    color: "orange",
-  },
-  {
-    icon: LayoutTemplate,
-    title: "Landing Pages",
-    description:
-      "Páginas de aterrizaje de alta conversión diseñadas para captar leads y cerrar ventas de forma efectiva.",
-    features: ["A/B Testing", "Alta conversión", "Remarketing"],
-    color: "orange",
-  },
-];
+import { useI18n } from "@/lib/i18n";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -66,6 +24,46 @@ const cardVariants = {
 };
 
 export default function Services() {
+  const { t } = useI18n();
+
+  const services = [
+    {
+      icon: Monitor,
+      title: t.svc1_title,
+      description: t.svc1_desc,
+      features: [t.svc1_f1, t.svc1_f2, t.svc1_f3],
+      color: "orange",
+    },
+    {
+      icon: ShoppingCart,
+      title: t.svc2_title,
+      description: t.svc2_desc,
+      features: [t.svc2_f1, t.svc2_f2, t.svc2_f3],
+      color: "orange",
+    },
+    {
+      icon: Search,
+      title: t.svc3_title,
+      description: t.svc3_desc,
+      features: [t.svc3_f1, t.svc3_f2, t.svc3_f3],
+      color: "orange",
+    },
+    {
+      icon: Bot,
+      title: t.svc4_title,
+      description: t.svc4_desc,
+      features: [t.svc4_f1, t.svc4_f2, t.svc4_f3],
+      color: "orange",
+    },
+    {
+      icon: LayoutTemplate,
+      title: t.svc5_title,
+      description: t.svc5_desc,
+      features: [t.svc5_f1, t.svc5_f2, t.svc5_f3],
+      color: "orange",
+    },
+  ];
+
   return (
     <section
       id="servicios"
@@ -82,15 +80,15 @@ export default function Services() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-medium mb-4">
-            ¿Qué hacemos?
+            {t.services_tag}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900">
-            Servicios diseñados para{" "}
-            <span className="gradient-text">hacer crecer</span> tu negocio
+            {t.services_h2a}{" "}
+            <span className="gradient-text">{t.services_h2b}</span>{" "}
+            {t.services_h2c}
           </h2>
           <p className="mt-4 text-neutral-600 text-lg max-w-2xl mx-auto">
-            Soluciones digitales end-to-end para que tu empresa destaque,
-            convierta y escale en el mundo online.
+            {t.services_sub}
           </p>
         </motion.div>
 
@@ -170,11 +168,10 @@ export default function Services() {
             <div className="relative">
               <span className="text-3xl" aria-hidden="true">💡</span>
               <h3 className="text-xl font-bold text-white mt-4 mb-2">
-                ¿Tienes un proyecto en mente?
+                {t.services_idea}
               </h3>
               <p className="text-neutral-400 text-sm leading-relaxed">
-                Cuéntanos tu idea y te preparamos una propuesta personalizada sin
-                costo ni compromiso.
+                {t.services_idea_sub}
               </p>
             </div>
             <button
@@ -185,7 +182,7 @@ export default function Services() {
               className="relative mt-6 w-full py-3 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl transition-colors cursor-pointer"
               aria-label="Iniciar conversación sobre tu proyecto"
             >
-              Iniciar conversación →
+              {t.services_idea_cta}
             </button>
           </motion.div>
         </motion.div>

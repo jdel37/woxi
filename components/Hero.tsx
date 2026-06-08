@@ -3,14 +3,13 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, Play, CheckCircle } from "lucide-react";
-
-const highlights = [
-  "Entrega en 7-14 días",
-  "Diseño 100% personalizado",
-  "SEO incluido desde el día 1",
-];
+import { useI18n } from "@/lib/i18n";
 
 export default function Hero() {
+  const { t } = useI18n();
+
+  const highlights = [t.hero_feat1, t.hero_feat2, t.hero_feat3];
+
   const handleCTA = (href: string) => {
     const el = document.querySelector(href);
     if (el) el.scrollIntoView({ behavior: "smooth" });
@@ -66,7 +65,7 @@ export default function Hero() {
               className="inline-flex items-center gap-2 px-4 py-2 mb-6 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-medium"
             >
               <span className="w-2 h-2 rounded-full bg-orange-500 animate-pulse" />
-              Agencia de Diseño Web Profesional
+              {t.hero_badge}
             </motion.div>
 
             {/* Headline */}
@@ -76,9 +75,9 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.1 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-neutral-900 leading-tight tracking-tight"
             >
-              Creamos páginas web que{" "}
-              <span className="gradient-text">convierten visitantes</span> en
-              clientes
+              {t.hero_h1a}{" "}
+              <span className="gradient-text">{t.hero_h1b}</span>{" "}
+              {t.hero_h1c}
             </motion.h1>
 
             {/* Subheadline */}
@@ -88,9 +87,7 @@ export default function Hero() {
               transition={{ duration: 0.6, delay: 0.2 }}
               className="mt-6 text-lg text-neutral-600 leading-relaxed max-w-lg"
             >
-              Diseñamos y desarrollamos experiencias digitales de alto impacto
-              que impulsan el crecimiento de tu negocio. Rápido, moderno y
-              optimizado para resultados.
+              {t.hero_sub}
             </motion.p>
 
             {/* Highlights */}
@@ -122,9 +119,9 @@ export default function Hero() {
               <button
                 onClick={() => handleCTA("#contacto")}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl text-base transition-all duration-200 shadow-lg hover:shadow-xl hover:shadow-orange-200 animate-pulse-orange group cursor-pointer"
-                aria-label="Solicitar cotización gratuita"
+                aria-label={t.hero_cta1}
               >
-                Solicitar cotización gratis
+                {t.hero_cta1}
                 <ArrowRight
                   className="w-5 h-5 group-hover:translate-x-1 transition-transform"
                   aria-hidden="true"
@@ -133,13 +130,13 @@ export default function Hero() {
               <button
                 onClick={() => handleCTA("#portafolio")}
                 className="inline-flex items-center justify-center gap-2 px-8 py-4 bg-white border-2 border-neutral-200 hover:border-orange-500 text-neutral-800 hover:text-orange-500 font-bold rounded-xl text-base transition-all duration-200 group cursor-pointer"
-                aria-label="Ver nuestro portafolio de proyectos"
+                aria-label={t.hero_cta2}
               >
                 <Play
                   className="w-4 h-4 text-orange-500 group-hover:scale-110 transition-transform"
                   aria-hidden="true"
                 />
-                Ver portafolio
+                {t.hero_cta2}
               </button>
             </motion.div>
 
@@ -178,8 +175,8 @@ export default function Hero() {
                   <span className="text-xl" aria-hidden="true">🚀</span>
                 </div>
                 <div>
-                  <p className="text-xs text-neutral-500">Velocidad</p>
-                  <p className="text-sm font-bold text-neutral-900">Lighthouse 98+</p>
+                  <p className="text-xs text-neutral-500">{t.hero_speed}</p>
+                  <p className="text-sm font-bold text-neutral-900">{t.hero_speed_val}</p>
                 </div>
               </motion.div>
               {/* Floating stat card 2 */}
@@ -193,8 +190,8 @@ export default function Hero() {
                   <span className="text-xl" aria-hidden="true">📈</span>
                 </div>
                 <div>
-                  <p className="text-xs text-neutral-500">Conversión</p>
-                  <p className="text-sm font-bold text-neutral-900">+340% más leads</p>
+                  <p className="text-xs text-neutral-500">{t.hero_conv}</p>
+                  <p className="text-sm font-bold text-neutral-900">{t.hero_conv_val}</p>
                 </div>
               </motion.div>
             </div>
@@ -211,7 +208,7 @@ export default function Hero() {
         aria-hidden="true"
       >
         <span className="text-xs text-neutral-400 font-medium tracking-widest uppercase">
-          Scroll
+          {t.scroll}
         </span>
         <div className="w-5 h-9 rounded-full border-2 border-neutral-300 flex justify-center pt-1.5">
           <motion.div

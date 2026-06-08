@@ -3,18 +3,20 @@
 import Image from "next/image";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
-
-const project = {
-  title: "D2F Consulting Agency",
-  category: "Sitio Corporativo",
-  image: "/project-corporate.png",
-  description:
-    "Presencia digital a la altura de una consultora estratégica con más de 20 años de experiencia. Sitio rápido, profesional y optimizado para captar clientes corporativos en Bogotá y Medellín.",
-  url: "https://www.d2fgestion.com",
-  tags: ["Diseño Web", "SEO", "Rendimiento"],
-};
+import { useI18n } from "@/lib/i18n";
 
 export default function Carousel3D() {
+  const { t } = useI18n();
+
+  const project = {
+    title: "D2F Consulting Agency",
+    category: t.portfolio_category,
+    image: "/project-corporate.png",
+    description: t.portfolio_desc,
+    url: "https://www.d2fgestion.com",
+    tags: ["Diseño Web", "SEO", "Rendimiento"],
+  };
+
   return (
     <section
       id="portafolio"
@@ -31,15 +33,14 @@ export default function Carousel3D() {
           className="text-center mb-16"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-orange-500/10 border border-orange-500/20 text-orange-400 text-sm font-medium mb-4">
-            Nuestro trabajo
+            {t.portfolio_tag}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-white">
-            Proyectos que{" "}
-            <span className="gradient-text">hablan por sí solos</span>
+            {t.portfolio_h2a}{" "}
+            <span className="gradient-text">{t.portfolio_h2b}</span>
           </h2>
           <p className="mt-4 text-neutral-400 text-lg max-w-2xl mx-auto">
-            Cada proyecto es una solución a medida, diseñada para maximizar
-            resultados y superar expectativas.
+            {t.portfolio_sub}
           </p>
         </motion.div>
 

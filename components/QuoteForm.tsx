@@ -10,6 +10,7 @@ import {
   ChevronRight,
   ChevronLeft,
 } from "lucide-react";
+import { useI18n, convertFromCOP, formatMoney } from "@/lib/i18n";
 
 // ─── Pricing tables ───────────────────────────────────────────────────────────
 const SITE_PRICES: Record<string, number> = {
@@ -36,14 +37,6 @@ const FEATURE_PRICES: Record<string, number> = {
   portal: 1500000,
   seo: 500000,
 };
-
-function formatCOP(n: number) {
-  return new Intl.NumberFormat("es-CO", {
-    style: "currency",
-    currency: "COP",
-    maximumFractionDigits: 0,
-  }).format(n);
-}
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 interface FormData {
@@ -124,6 +117,7 @@ const inputClass =
 
 // ─── Main component ───────────────────────────────────────────────────────────
 export default function QuoteForm() {
+  const { t, currency } = useI18n();
   const [form, setForm] = useState<FormData>(INITIAL);
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
@@ -176,6 +170,9 @@ export default function QuoteForm() {
     }
   };
 
+  const formatPrice = (copAmount: number) =>
+    formatMoney(convertFromCOP(copAmount, currency), currency);
+
   if (status === "success") {
     return (
       <section id="contacto" className="py-24 bg-white">
@@ -188,19 +185,18 @@ export default function QuoteForm() {
             <CheckCircle className="w-10 h-10 text-orange-500" />
           </div>
           <h3 className="text-2xl font-extrabold text-neutral-900 mb-2">
-            ¡Solicitud recibida!
+            {t.quote_success_title}
           </h3>
           <p className="text-neutral-600 mb-6">
-            Te contactamos en menos de 24 horas por email o WhatsApp con tu
-            propuesta personalizada.
+            {t.quote_success_sub}
           </p>
           {estimate && (
             <div className="p-5 bg-orange-50 rounded-2xl border border-orange-100">
               <p className="text-xs font-semibold text-orange-600 uppercase tracking-wider mb-1">
-                Tu estimado
+                {t.quote_success_estimate}
               </p>
               <p className="text-2xl font-extrabold text-neutral-900">
-                {formatCOP(estimate.min)} — {formatCOP(estimate.max)}
+                {formatPrice(estimate.min)} — {formatPrice(estimate.max)}
               </p>
             </div>
           )}
@@ -220,14 +216,14 @@ export default function QuoteForm() {
           className="text-center mb-10"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-medium mb-4">
-            Cotización gratuita
+            {t.quote_tag}
           </span>
           <h2 className="text-3xl sm:text-4xl font-extrabold text-neutral-900">
-            Cuéntanos tu{" "}
-            <span className="gradient-text">proyecto</span>
+            {t.quote_h2a}{" "}
+            <span className="gradient-text">{t.quote_h2b}</span>
           </h2>
           <p className="mt-3 text-neutral-600">
-            Calculamos el precio en tiempo real según lo que necesitas.
+            {t.quote_sub}
           </p>
         </motion.div>
 
@@ -271,11 +267,11 @@ export default function QuoteForm() {
                 className="p-6 sm:p-8 space-y-5"
               >
                 <h3 className="text-lg font-bold text-neutral-900">
-                  👤 Sobre ti y tu empresa
+                  👤 {t.quote_step1}
                 </h3>
 
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <Field label="Tu nombre" required>
+                  <Field label={t.quote_name} required>
                     <input
                       className={inputClass}
                       placeholder="Juan Pérez"
@@ -283,7 +279,7 @@ export default function QuoteForm() {
                       onChange={(e) => set("contactName", e.target.value)}
                     />
                   </Field>
-                  <Field label="Nombre de tu empresa" required>
+                  <Field label={t.quote_company} required>
                     <input
                       className={inputClass}
                       placeholder="Mi Empresa SAS"
@@ -293,17 +289,17 @@ export default function QuoteForm() {
                   </Field>
                 </div>
 
-                <Field label="¿A qué se dedica tu empresa?" required>
+                <Field label={t.quote_sector} required>
                   <input
                     className={inputClass}
-                    placeholder="Ej: Consultoría de negocios, ropa, restaurante..."
+                    placeholder={t.quote_sector_ph}
                     value={form.businessType}
                     onChange={(e) => set("businessType", e.target.value)}
                   />
                 </Field>
 
                 <div className="grid sm:grid-cols-2 gap-4">
-                  <Field label="Email de contacto" required>
+                  <Field label={t.quote_email} required>
                     <input
                       className={inputClass}
                       type="email"
@@ -312,7 +308,7 @@ export default function QuoteForm() {
                       onChange={(e) => set("email", e.target.value)}
                     />
                   </Field>
-                  <Field label="WhatsApp (opcional)">
+                  <Field label={t.quote_whatsapp}>
                     <input
                       className={inputClass}
                       placeholder="+57 300 000 0000"
@@ -335,17 +331,17 @@ export default function QuoteForm() {
                 className="p-6 sm:p-8 space-y-6"
               >
                 <h3 className="text-lg font-bold text-neutral-900">
-                  🌐 Tu sitio web
+                  🌐 {t.quote_step2}
                 </h3>
 
-                <Field label="¿Qué tipo de sitio necesitas?" required>
+                <Field label={t.quote_site_type} required>
                   <div className="flex flex-wrap gap-2 mt-1">
                     {[
-                      { v: "landing", l: "Landing Page" },
-                      { v: "corporate", l: "Sitio Corporativo" },
-                      { v: "ecommerce", l: "Tienda Online" },
-                      { v: "restaurant", l: "Restaurante" },
-                      { v: "custom", l: "Otro" },
+                      { v: "landing", l: t.quote_site_landing },
+                      { v: "corporate", l: t.quote_site_corporate },
+                      { v: "ecommerce", l: t.quote_site_ecommerce },
+                      { v: "restaurant", l: t.quote_site_restaurant },
+                      { v: "custom", l: t.quote_site_custom },
                     ].map(({ v, l }) => (
                       <Chip
                         key={v}
@@ -357,7 +353,7 @@ export default function QuoteForm() {
                   </div>
                 </Field>
 
-                <Field label="¿Cuántas páginas / secciones?" required>
+                <Field label={t.quote_pages} required>
                   <div className="flex flex-wrap gap-2 mt-1">
                     {["1-3", "4-6", "7-10", "10+"].map((v) => (
                       <Chip
@@ -370,16 +366,16 @@ export default function QuoteForm() {
                   </div>
                 </Field>
 
-                <Field label="¿Qué funcionalidades extra necesitas?">
+                <Field label={t.quote_features}>
                   <div className="flex flex-wrap gap-2 mt-1">
                     {[
-                      { v: "blog", l: "Blog" },
-                      { v: "payments", l: "Pagos en línea" },
-                      { v: "booking", l: "Reservas online" },
-                      { v: "chat", l: "Chat en vivo" },
-                      { v: "multilang", l: "Multilenguaje" },
-                      { v: "portal", l: "Portal de clientes" },
-                      { v: "seo", l: "SEO avanzado" },
+                      { v: "blog", l: t.quote_feat_blog },
+                      { v: "payments", l: t.quote_feat_payments },
+                      { v: "booking", l: t.quote_feat_booking },
+                      { v: "chat", l: t.quote_feat_chat },
+                      { v: "multilang", l: t.quote_feat_multilang },
+                      { v: "portal", l: t.quote_feat_portal },
+                      { v: "seo", l: t.quote_feat_seo },
                     ].map(({ v, l }) => (
                       <Chip
                         key={v}
@@ -404,15 +400,15 @@ export default function QuoteForm() {
                 className="p-6 sm:p-8 space-y-6"
               >
                 <h3 className="text-lg font-bold text-neutral-900">
-                  ⚙️ Últimos detalles
+                  ⚙️ {t.quote_step3}
                 </h3>
 
-                <Field label="¿Cuándo lo necesitas?" required>
+                <Field label={t.quote_urgency} required>
                   <div className="flex flex-wrap gap-2 mt-1">
                     {[
-                      { v: "urgent", l: "🔥 Urgente (<1 semana)" },
-                      { v: "normal", l: "✅ Normal (2-3 semanas)" },
-                      { v: "relaxed", l: "🕐 Sin prisa (1 mes+)" },
+                      { v: "urgent", l: t.quote_urg_urgent },
+                      { v: "normal", l: t.quote_urg_normal },
+                      { v: "relaxed", l: t.quote_urg_relaxed },
                     ].map(({ v, l }) => (
                       <Chip
                         key={v}
@@ -424,12 +420,12 @@ export default function QuoteForm() {
                   </div>
                 </Field>
 
-                <Field label="¿Tienes el contenido (textos, fotos, logo)?" required>
+                <Field label={t.quote_content} required>
                   <div className="flex flex-wrap gap-2 mt-1">
                     {[
-                      { v: "yes", l: "✅ Sí, tengo todo" },
-                      { v: "partial", l: "🔶 Tengo algo" },
-                      { v: "no", l: "❌ No, necesito ayuda" },
+                      { v: "yes", l: t.quote_cont_yes },
+                      { v: "partial", l: t.quote_cont_partial },
+                      { v: "no", l: t.quote_cont_no },
                     ].map(({ v, l }) => (
                       <Chip
                         key={v}
@@ -441,11 +437,11 @@ export default function QuoteForm() {
                   </div>
                 </Field>
 
-                <Field label="Cuéntanos más sobre tu proyecto (opcional)">
+                <Field label={t.quote_notes}>
                   <textarea
                     className={`${inputClass} resize-none`}
                     rows={4}
-                    placeholder="¿Tienes referentes de diseño? ¿Colores de tu marca? ¿Algo específico que quieras?"
+                    placeholder={t.quote_notes_ph}
                     value={form.notes}
                     onChange={(e) => set("notes", e.target.value)}
                   />
@@ -466,16 +462,16 @@ export default function QuoteForm() {
                 <div className="flex items-center gap-2 mb-1">
                   <Calculator className="w-4 h-4 text-orange-500" />
                   <span className="text-xs font-semibold text-orange-600 uppercase tracking-wider">
-                    Estimado preliminar
+                    {t.quote_estimate_label}
                   </span>
                 </div>
                 <p className="text-2xl font-extrabold text-neutral-900">
-                  {formatCOP(estimate.min)}{" "}
+                  {formatPrice(estimate.min)}{" "}
                   <span className="text-neutral-400 font-normal">—</span>{" "}
-                  {formatCOP(estimate.max)}
+                  {formatPrice(estimate.max)}
                 </p>
                 <p className="text-xs text-neutral-500 mt-1">
-                  La cotización final puede variar según los detalles específicos de tu proyecto.
+                  {t.quote_estimate_note}
                 </p>
               </motion.div>
             )}
@@ -490,7 +486,7 @@ export default function QuoteForm() {
                 className="flex items-center gap-1.5 px-5 py-3 rounded-xl border border-neutral-200 text-sm font-semibold text-neutral-600 hover:border-neutral-300 transition-colors cursor-pointer"
               >
                 <ChevronLeft className="w-4 h-4" />
-                Atrás
+                {t.quote_back}
               </button>
             ) : (
               <div />
@@ -503,7 +499,7 @@ export default function QuoteForm() {
                 disabled={step === 1 ? !canNext1 : !canNext2}
                 className="flex items-center gap-1.5 px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ml-auto"
               >
-                Siguiente
+                {t.quote_next}
                 <ChevronRight className="w-4 h-4" />
               </button>
             ) : (
@@ -516,12 +512,12 @@ export default function QuoteForm() {
                 {status === "sending" ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Enviando...
+                    {t.quote_sending}
                   </>
                 ) : (
                   <>
                     <Send className="w-4 h-4" />
-                    Enviar cotización
+                    {t.quote_send}
                   </>
                 )}
               </button>
@@ -530,7 +526,7 @@ export default function QuoteForm() {
 
           {status === "error" && (
             <p className="px-6 sm:px-8 pb-6 text-sm text-red-500 text-center">
-              Error al enviar. Escríbenos directo a{" "}
+              {t.quote_error}{" "}
               <a
                 href="mailto:foreromorenojuandavid79@gmail.com"
                 className="underline"

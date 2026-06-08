@@ -3,56 +3,44 @@
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { ArrowRight, TrendingUp, Clock, Shield } from "lucide-react";
-
-const benefits = [
-  {
-    icon: TrendingUp,
-    tag: "Más clientes",
-    title: "Diseño que convierte visitantes en compradores",
-    description:
-      "Creamos experiencias web enfocadas en la conversión. Cada elemento, desde el copy hasta los botones CTA, está diseñado para guiar al usuario hacia la acción que tu negocio necesita.",
-    points: [
-      "UX optimizada para conversión",
-      "Llamadas a la acción estratégicas",
-      "Funnel de ventas integrado",
-    ],
-    image: "/benefits-illustration.png",
-    imageAlt: "Equipo diseñando interfaces web de alta conversión",
-    reverse: false,
-  },
-  {
-    icon: Clock,
-    tag: "Más rápido",
-    title: "Velocidad de carga que supera tu competencia",
-    description:
-      "El 53% de los usuarios abandona un sitio si tarda más de 3 segundos en cargar. Nuestros sitios alcanzan puntuaciones de 95+ en Google PageSpeed, manteniendo a tus visitantes y mejorando tu SEO.",
-    points: [
-      "Lighthouse score 95+",
-      "Imágenes optimizadas con WebP/AVIF",
-      "CDN global incluido",
-    ],
-    image: "/hero-mockup.png",
-    imageAlt: "Panel de Lighthouse mostrando puntuaciones de rendimiento web",
-    reverse: true,
-  },
-  {
-    icon: Shield,
-    tag: "Más confianza",
-    title: "Hosting, despliegue y soporte que te da tranquilidad",
-    description:
-      "Tu sitio queda publicado y funcionando desde el día uno. Nos encargamos del hosting, el despliegue y el mantenimiento. Y cuando necesitas ayuda, estamos aquí. Soporte técnico ágil y dedicado para que nunca te quedes solo.",
-    points: [
-      "Hosting y despliegue incluido",
-      "Backups automáticos diarios",
-      "Soporte prioritario 7 días",
-    ],
-    image: "/benefits-illustration.png",
-    imageAlt: "Ilustración de seguridad y soporte web profesional",
-    reverse: false,
-  },
-];
+import { useI18n } from "@/lib/i18n";
 
 export default function Benefits() {
+  const { t } = useI18n();
+
+  const benefits = [
+    {
+      icon: TrendingUp,
+      tag: t.ben1_tag,
+      title: t.ben1_title,
+      description: t.ben1_desc,
+      points: [t.ben1_p1, t.ben1_p2, t.ben1_p3],
+      image: "/benefits-illustration.png",
+      imageAlt: "Equipo diseñando interfaces web de alta conversión",
+      reverse: false,
+    },
+    {
+      icon: Clock,
+      tag: t.ben2_tag,
+      title: t.ben2_title,
+      description: t.ben2_desc,
+      points: [t.ben2_p1, t.ben2_p2, t.ben2_p3],
+      image: "/hero-mockup.png",
+      imageAlt: "Panel de Lighthouse mostrando puntuaciones de rendimiento web",
+      reverse: true,
+    },
+    {
+      icon: Shield,
+      tag: t.ben3_tag,
+      title: t.ben3_title,
+      description: t.ben3_desc,
+      points: [t.ben3_p1, t.ben3_p2, t.ben3_p3],
+      image: "/benefits-illustration.png",
+      imageAlt: "Ilustración de seguridad y soporte web profesional",
+      reverse: false,
+    },
+  ];
+
   return (
     <section
       id="nosotros"
@@ -69,11 +57,11 @@ export default function Benefits() {
           className="text-center mb-20"
         >
           <span className="inline-block px-4 py-1.5 rounded-full bg-orange-50 border border-orange-200 text-orange-600 text-sm font-medium mb-4">
-            ¿Por qué nosotros?
+            {t.benefits_tag}
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-neutral-900">
-            Todo lo que tu negocio{" "}
-            <span className="gradient-text">necesita para crecer</span>
+            {t.benefits_h2a}{" "}
+            <span className="gradient-text">{t.benefits_h2b}</span>
           </h2>
         </motion.div>
 
@@ -171,7 +159,7 @@ export default function Benefits() {
                   className="inline-flex items-center gap-2 text-orange-500 font-semibold hover:gap-3 transition-all duration-200 group cursor-pointer"
                   aria-label={`Saber más sobre ${b.tag.toLowerCase()}`}
                 >
-                  Saber más
+                  {t.benefits_cta}
                   <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" aria-hidden="true" />
                 </button>
               </div>

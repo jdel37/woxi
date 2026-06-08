@@ -11,6 +11,7 @@ import {
   ChevronLeft,
 } from "lucide-react";
 import { useI18n, convertFromCOP, formatMoney } from "@/lib/i18n";
+import { createClient } from "@/lib/supabase/client";
 
 // ─── Pricing tables (base COP) ────────────────────────────────────────────────
 // Rates: ~$50,000 COP/h junior · ~$90,000 COP/h mid · market margin included
@@ -52,6 +53,9 @@ interface FormData {
   urgency: string;
   contentStatus: string;
   notes: string;
+  brandColors: string[];
+  logoFile: File | null;
+  brandFiles: File[];
 }
 
 const INITIAL: FormData = {
@@ -66,6 +70,9 @@ const INITIAL: FormData = {
   urgency: "",
   contentStatus: "",
   notes: "",
+  brandColors: ["#f97316", "#111111", "#ffffff"],
+  logoFile: null,
+  brandFiles: [],
 };
 
 // ─── Small helpers ────────────────────────────────────────────────────────────
@@ -122,6 +129,7 @@ export default function QuoteForm() {
   const [form, setForm] = useState<FormData>(INITIAL);
   const [step, setStep] = useState(1);
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
+  const TOTAL_STEPS = 4;
 
   const set = (k: keyof FormData, v: string) =>
     setForm((prev) => ({ ...prev, [k]: v }));
@@ -148,21 +156,50 @@ export default function QuoteForm() {
     return { min: Math.round(total * 0.9), max: Math.round(total * 1.15) };
   }, [form]);
 
-  const canNext1 =
-    form.contactName.trim() &&
-    form.email.trim() &&
-    form.businessName.trim();
+  const canNext1 = form.contactName.trim() && form.email.trim() && form.businessName.trim();
   const canNext2 = form.siteType && form.pageCount;
-  const canSubmit =
-    canNext1 && canNext2 && form.urgency && form.contentStatus;
+  const canNext3 = form.urgency && form.contentStatus;
+  const canSubmit = canNext1 && canNext2 && canNext3;
+
+  const uploadFile = async (file: File, path: string): Promise<string | null> => {
+    try {
+      const supabase = createClient();
+      const { error } = await supabase.storage.from("brand-assets").upload(path, file, { upsert: true });
+      if (error) return null;
+      const { data } = supabase.storage.from("brand-assets").getPublicUrl(path);
+      return data.publicUrl;
+    } catch { return null; }
+  };
 
   const handleSubmit = async () => {
     setStatus("sending");
     try {
+      const uid = crypto.randomUUID();
+      let logoUrl: string | null = null;
+      const brandImages: string[] = [];
+
+      if (form.logoFile) {
+        const ext = form.logoFile.name.split(".").pop();
+        logoUrl = await uploadFile(form.logoFile, `${uid}/logo.${ext}`);
+      }
+      for (let i = 0; i < form.brandFiles.length; i++) {
+        const ext = form.brandFiles[i].name.split(".").pop();
+        const url = await uploadFile(form.brandFiles[i], `${uid}/ref-${i}.${ext}`);
+        if (url) brandImages.push(url);
+      }
+
       const res = await fetch("/api/cotizacion", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ ...form, estimate }),
+        body: JSON.stringify({
+          ...form,
+          logoFile: undefined,
+          brandFiles: undefined,
+          logoUrl,
+          brandImages,
+          currency,
+          estimate,
+        }),
       });
       if (!res.ok) throw new Error();
       setStatus("success");
@@ -279,7 +316,7 @@ export default function QuoteForm() {
 
         {/* Step indicators */}
         <div className="flex items-center justify-center gap-2 mb-8">
-          {[1, 2, 3].map((s) => (
+          {[1, 2, 3, 4].map((s) => (
             <div key={s} className="flex items-center gap-2">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-bold transition-all duration-300 ${
@@ -292,9 +329,9 @@ export default function QuoteForm() {
               >
                 {s < step ? "✓" : s}
               </div>
-              {s < 3 && (
+              {s < 4 && (
                 <div
-                  className={`w-12 h-0.5 transition-all duration-300 ${
+                  className={`w-8 h-0.5 transition-all duration-300 ${
                     s < step ? "bg-orange-400" : "bg-neutral-200"
                   }`}
                 />
@@ -498,6 +535,81 @@ export default function QuoteForm() {
                 </Field>
               </motion.div>
             )}
+
+            {/* ── Step 4: Brand ── */}
+            {step === 4 && (
+              <motion.div
+                key="step4"
+                initial={{ opacity: 0, x: 30 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -30 }}
+                transition={{ duration: 0.25 }}
+                className="p-6 sm:p-8 space-y-6"
+              >
+                <h3 className="text-lg font-bold text-neutral-900">Identidad de marca</h3>
+
+                <Field label="Colores de tu marca">
+                  <div className="flex gap-4 mt-1 flex-wrap">
+                    {form.brandColors.map((color, i) => (
+                      <div key={i} className="flex flex-col items-center gap-1.5">
+                        <label
+                          className="w-12 h-12 rounded-xl border-2 border-neutral-200 cursor-pointer overflow-hidden hover:border-orange-400 transition-colors"
+                          style={{ backgroundColor: color }}
+                        >
+                          <input
+                            type="color"
+                            value={color}
+                            onChange={(e) => {
+                              const next = [...form.brandColors];
+                              next[i] = e.target.value;
+                              setForm((prev) => ({ ...prev, brandColors: next }));
+                            }}
+                            className="opacity-0 w-0 h-0"
+                          />
+                        </label>
+                        <span className="text-xs font-mono text-neutral-400">{color}</span>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="text-xs text-neutral-400 mt-2">Haz clic en cada color para cambiarlo</p>
+                </Field>
+
+                <Field label="Logo de tu empresa (opcional)">
+                  <label className="flex flex-col items-center justify-center w-full h-28 border-2 border-dashed border-neutral-200 rounded-xl cursor-pointer hover:border-orange-400 hover:bg-orange-50/30 transition-all">
+                    <input type="file" accept="image/*" className="hidden"
+                      onChange={(e) => setForm((prev) => ({ ...prev, logoFile: e.target.files?.[0] ?? null }))}
+                    />
+                    {form.logoFile ? (
+                      <div className="text-center">
+                        <p className="text-sm font-medium text-orange-500">{form.logoFile.name}</p>
+                        <p className="text-xs text-neutral-400 mt-1">{(form.logoFile.size / 1024).toFixed(0)} KB</p>
+                      </div>
+                    ) : (
+                      <div className="text-center">
+                        <p className="text-sm text-neutral-500">Arrastra tu logo o haz clic</p>
+                        <p className="text-xs text-neutral-400 mt-1">PNG, JPG, SVG — máx 5MB</p>
+                      </div>
+                    )}
+                  </label>
+                </Field>
+
+                <Field label="Imágenes de referencia / inspiración (opcional)">
+                  <label className="flex flex-col items-center justify-center w-full h-24 border-2 border-dashed border-neutral-200 rounded-xl cursor-pointer hover:border-orange-400 hover:bg-orange-50/30 transition-all">
+                    <input type="file" accept="image/*" multiple className="hidden"
+                      onChange={(e) => setForm((prev) => ({ ...prev, brandFiles: Array.from(e.target.files ?? []).slice(0, 4) }))}
+                    />
+                    {form.brandFiles.length > 0 ? (
+                      <p className="text-sm font-medium text-orange-500">{form.brandFiles.length} archivo(s) seleccionado(s)</p>
+                    ) : (
+                      <div className="text-center">
+                        <p className="text-sm text-neutral-500">Hasta 4 imágenes de referencia</p>
+                        <p className="text-xs text-neutral-400 mt-1">Sitios que te gustan, estilos, paletas...</p>
+                      </div>
+                    )}
+                  </label>
+                </Field>
+              </motion.div>
+            )}
           </AnimatePresence>
 
           {/* Price estimate */}
@@ -542,11 +654,11 @@ export default function QuoteForm() {
               <div />
             )}
 
-            {step < 3 ? (
+            {step < TOTAL_STEPS ? (
               <button
                 type="button"
                 onClick={() => setStep((s) => s + 1)}
-                disabled={step === 1 ? !canNext1 : !canNext2}
+                disabled={step === 1 ? !canNext1 : step === 2 ? !canNext2 : step === 3 ? !canNext3 : false}
                 className="flex items-center gap-1.5 px-6 py-3 rounded-xl bg-orange-500 hover:bg-orange-600 text-white text-sm font-bold transition-all duration-200 disabled:opacity-40 disabled:cursor-not-allowed cursor-pointer ml-auto"
               >
                 {t.quote_next}

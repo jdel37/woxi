@@ -1,5 +1,6 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
+import { createClient as createSupabase } from "@supabase/supabase-js";
 
 function formatCOP(n: number) {
   return new Intl.NumberFormat("es-CO", {
@@ -56,7 +57,41 @@ export async function POST(req: NextRequest) {
       contentStatus,
       notes,
       estimate,
+      brandColors,
+      logoUrl,
+      brandImages,
+      currency,
     } = body;
+
+    // Save to Supabase (non-blocking — don't fail if DB not configured)
+    try {
+      const supabase = createSupabase(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        process.env.SUPABASE_SERVICE_ROLE_KEY!
+      );
+      await supabase.from("quotes").insert({
+        contact_name: contactName,
+        business_name: businessName,
+        business_type: businessType,
+        email,
+        whatsapp,
+        site_type: siteType,
+        page_count: pageCount,
+        features: features ?? [],
+        urgency,
+        content_status: contentStatus,
+        notes,
+        estimate_min: estimate?.min ?? null,
+        estimate_max: estimate?.max ?? null,
+        currency: currency ?? "COP",
+        brand_colors: brandColors ?? [],
+        logo_url: logoUrl ?? null,
+        brand_images: brandImages ?? [],
+        status: "nuevo",
+      });
+    } catch (_dbErr) {
+      console.warn("Supabase not configured or insert failed — email-only mode");
+    }
 
     const featuresHtml = features?.length
       ? features.map((f: string) => `<li>${featureLabels[f] ?? f}</li>`).join("")

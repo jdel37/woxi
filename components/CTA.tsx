@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { ArrowRight, MessageCircle } from "lucide-react";
+import { ArrowRight, MessageCircle, Check } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 const WHATSAPP_URL = "https://wa.me/573223624554?text=Hola%2C%20me%20interesa%20una%20cotizaci%C3%B3n%20para%20mi%20p%C3%A1gina%20web";
@@ -94,7 +94,10 @@ export default function CTA() {
           {/* Trust badges */}
           <div className="mt-10 flex flex-wrap items-center justify-center gap-6 text-neutral-500 text-sm">
             {trustBadges.map((badge) => (
-              <span key={badge} className="flex items-center gap-1">
+              <span key={badge} className="flex items-center gap-1.5">
+                <span className="w-4 h-4 rounded-full bg-orange-500/20 flex items-center justify-center shrink-0">
+                  <Check className="w-2.5 h-2.5 text-orange-400" />
+                </span>
                 {badge}
               </span>
             ))}

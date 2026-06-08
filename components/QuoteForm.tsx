@@ -9,6 +9,10 @@ import {
   Loader2,
   ChevronRight,
   ChevronLeft,
+  Check,
+  User,
+  Globe,
+  Settings,
 } from "lucide-react";
 import { useI18n, convertFromCOP, formatMoney } from "@/lib/i18n";
 import { createClient } from "@/lib/supabase/client";
@@ -327,7 +331,7 @@ export default function QuoteForm() {
                     : "bg-neutral-200 text-neutral-400"
                 }`}
               >
-                {s < step ? "✓" : s}
+                {s < step ? <Check className="w-4 h-4" /> : s}
               </div>
               {s < 4 && (
                 <div
@@ -353,8 +357,9 @@ export default function QuoteForm() {
                 transition={{ duration: 0.25 }}
                 className="p-6 sm:p-8 space-y-5"
               >
-                <h3 className="text-lg font-bold text-neutral-900">
-                  👤 {t.quote_step1}
+                <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
+                  <User className="w-5 h-5 text-orange-500" />
+                  {t.quote_step1}
                 </h3>
 
                 <div className="grid sm:grid-cols-2 gap-4">
@@ -417,8 +422,9 @@ export default function QuoteForm() {
                 transition={{ duration: 0.25 }}
                 className="p-6 sm:p-8 space-y-6"
               >
-                <h3 className="text-lg font-bold text-neutral-900">
-                  🌐 {t.quote_step2}
+                <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
+                  <Globe className="w-5 h-5 text-orange-500" />
+                  {t.quote_step2}
                 </h3>
 
                 <Field label={t.quote_site_type} required>
@@ -486,8 +492,9 @@ export default function QuoteForm() {
                 transition={{ duration: 0.25 }}
                 className="p-6 sm:p-8 space-y-6"
               >
-                <h3 className="text-lg font-bold text-neutral-900">
-                  ⚙️ {t.quote_step3}
+                <h3 className="text-lg font-bold text-neutral-900 flex items-center gap-2">
+                  <Settings className="w-5 h-5 text-orange-500" />
+                  {t.quote_step3}
                 </h3>
 
                 <Field label={t.quote_urgency} required>

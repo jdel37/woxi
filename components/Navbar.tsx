@@ -1,17 +1,17 @@
 "use client";
 
 import { useState, useEffect, useRef } from "react";
-import { Menu, X, Zap, ChevronDown } from "lucide-react";
+import { Menu, X, Zap, ChevronDown, Globe } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 import { useI18n, Lang, Currency } from "@/lib/i18n";
 
-const LANG_OPTIONS: { code: Lang; flag: string; label: string }[] = [
-  { code: "es", flag: "🇪🇸", label: "ES" },
-  { code: "en", flag: "🇺🇸", label: "EN" },
-  { code: "pt", flag: "🇧🇷", label: "PT" },
-  { code: "fr", flag: "🇫🇷", label: "FR" },
-  { code: "de", flag: "🇩🇪", label: "DE" },
+const LANG_OPTIONS: { code: Lang; label: string; name: string }[] = [
+  { code: "es", label: "ES", name: "Español" },
+  { code: "en", label: "EN", name: "English" },
+  { code: "pt", label: "PT", name: "Português" },
+  { code: "fr", label: "FR", name: "Français" },
+  { code: "de", label: "DE", name: "Deutsch" },
 ];
 
 const CURRENCY_OPTIONS: Currency[] = ["COP", "USD", "EUR", "BRL"];
@@ -114,10 +114,10 @@ export default function Navbar() {
             <div className="relative" ref={langRef}>
               <button
                 onClick={() => { setLangOpen((v) => !v); setCurrOpen(false); }}
-                className="flex items-center gap-1 px-2.5 py-2 text-sm font-medium text-neutral-600 hover:text-orange-500 rounded-lg hover:bg-orange-50 transition-colors cursor-pointer"
+                className="flex items-center gap-1.5 px-2.5 py-2 text-sm font-medium text-neutral-600 hover:text-orange-500 rounded-lg hover:bg-orange-50 transition-colors cursor-pointer"
                 aria-label="Seleccionar idioma"
               >
-                <span>{currentLang.flag}</span>
+                <Globe className="w-3.5 h-3.5" />
                 <span>{currentLang.label}</span>
                 <ChevronDown className="w-3 h-3" />
               </button>
@@ -128,20 +128,20 @@ export default function Navbar() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -6 }}
                     transition={{ duration: 0.15 }}
-                    className="absolute right-0 top-full mt-1 bg-white border border-neutral-100 rounded-xl shadow-lg overflow-hidden z-50 min-w-[110px]"
+                    className="absolute right-0 top-full mt-1 bg-white border border-neutral-100 rounded-xl shadow-lg overflow-hidden z-50 min-w-[140px]"
                   >
                     {LANG_OPTIONS.map((opt) => (
                       <button
                         key={opt.code}
                         onClick={() => { setLang(opt.code); setLangOpen(false); }}
-                        className={`flex items-center gap-2 w-full px-3 py-2 text-sm text-left transition-colors cursor-pointer ${
+                        className={`flex items-center gap-2 w-full px-3 py-2.5 text-sm text-left transition-colors cursor-pointer ${
                           lang === opt.code
                             ? "bg-orange-50 text-orange-600 font-semibold"
                             : "text-neutral-600 hover:bg-neutral-50"
                         }`}
                       >
-                        <span>{opt.flag}</span>
-                        <span>{opt.label}</span>
+                        <span className="text-xs font-bold tracking-wide w-6 shrink-0">{opt.label}</span>
+                        <span className="text-neutral-400 text-xs">{opt.name}</span>
                       </button>
                     ))}
                   </motion.div>
@@ -269,7 +269,7 @@ export default function Navbar() {
                           : "text-neutral-500 hover:bg-neutral-100"
                       }`}
                     >
-                      {opt.flag} {opt.label}
+                      {opt.label}
                     </button>
                   ))}
                   <span className="text-neutral-200">|</span>

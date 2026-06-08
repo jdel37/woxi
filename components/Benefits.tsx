@@ -35,7 +35,7 @@ export default function Benefits() {
       title: t.ben3_title,
       description: t.ben3_desc,
       points: [t.ben3_p1, t.ben3_p2, t.ben3_p3],
-      image: "/benefits-illustration.png",
+      image: "/hosting.png",
       imageAlt: "Ilustración de seguridad y soporte web profesional",
       reverse: false,
     },

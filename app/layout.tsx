@@ -71,9 +71,9 @@ export const metadata: Metadata = {
     canonical: siteUrl,
   },
   icons: {
-    icon: "/woxi-logo.png",
-    shortcut: "/woxi-logo.png",
-    apple: "/woxi-logo.png",
+    icon: "/logo.png",
+    shortcut: "/logo.png",
+    apple: "/logo.png",
   },
 };
 

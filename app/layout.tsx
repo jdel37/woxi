@@ -70,6 +70,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  icons: {
+    icon: "/woxi-logo.png",
+    shortcut: "/woxi-logo.png",
+    apple: "/woxi-logo.png",
+  },
 };
 
 const jsonLd = {

@@ -89,6 +89,7 @@ const jsonLd = {
         "@type": "ImageObject",
         url: `${siteUrl}/logo.png`,
       },
+      sameAs: ["https://www.instagram.com/woxi.dev/"],
       address: {
         "@type": "PostalAddress",
         addressLocality: "Bogotá",

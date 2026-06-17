@@ -66,17 +66,12 @@ export default function Hero() {
               {t.hero_badge}
             </motion.div>
 
-            {/* Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-neutral-900 leading-tight tracking-tight"
-            >
+            {/* Headline — no entrance animation so it paints immediately (LCP) */}
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-extrabold text-neutral-900 leading-tight tracking-tight">
               {t.hero_h1a}{" "}
               <span className="gradient-text">{t.hero_h1b}</span>{" "}
               {t.hero_h1c}
-            </motion.h1>
+            </h1>
 
             {/* Subheadline */}
             <motion.p
@@ -140,11 +135,8 @@ export default function Hero() {
 
           </div>
 
-          {/* Right — Mockup image */}
-          <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.8, delay: 0.2 }}
+          {/* Right — Mockup image (no entrance animation so the LCP image paints immediately) */}
+          <div
             className="relative flex justify-center lg:justify-end"
             aria-hidden="true"
           >
@@ -193,7 +185,7 @@ export default function Hero() {
                 </div>
               </motion.div>
             </div>
-          </motion.div>
+          </div>
         </div>
       </div>
 

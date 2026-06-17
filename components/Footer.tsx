@@ -1,6 +1,6 @@
 "use client";
 
-import { Zap, Mail, Phone, MapPin } from "lucide-react";
+import { Zap, Mail, Phone, MapPin, Instagram } from "lucide-react";
 import { useI18n } from "@/lib/i18n";
 
 const contactInfo = [
@@ -80,6 +80,19 @@ export default function Footer() {
                 </a>
               ))}
             </address>
+
+            {/* Social */}
+            <div className="mt-6 flex items-center gap-3">
+              <a
+                href="https://www.instagram.com/woxi.dev/"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Instagram de Woxi"
+                className="w-9 h-9 rounded-lg bg-white/5 hover:bg-orange-500 flex items-center justify-center text-neutral-400 hover:text-white transition-colors"
+              >
+                <Instagram className="w-4 h-4" aria-hidden="true" />
+              </a>
+            </div>
 
           </div>
 

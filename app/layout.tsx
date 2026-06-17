@@ -75,6 +75,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
+  // Set GOOGLE_SITE_VERIFICATION in Vercel env vars to verify the site in
+  // Google Search Console (the #1 step to get indexed/ranked). Omitted if unset.
+  verification: process.env.GOOGLE_SITE_VERIFICATION
+    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
+    : undefined,
 };
 
 const jsonLd = {
@@ -112,6 +117,52 @@ const jsonLd = {
       name: "Woxi",
       description: "Agencia de diseño web profesional en Bogotá, Colombia",
       publisher: { "@id": `${siteUrl}/#organization` },
+    },
+    {
+      "@type": "FAQPage",
+      "@id": `${siteUrl}/#faq`,
+      mainEntity: [
+        {
+          "@type": "Question",
+          name: "¿Cuánto cuesta una página web profesional?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "El precio depende del tipo de sitio (landing, corporativo, tienda online), número de secciones y funcionalidades. En Woxi calculamos un estimado en tiempo real y la primera consulta es gratis y sin compromiso.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿En cuánto tiempo entregan una página web?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "La mayoría de proyectos se entregan en 7 a 14 días. Proyectos urgentes pueden estar listos en menos de una semana según el alcance.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿El diseño web incluye SEO?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sí. Todos nuestros sitios incluyen SEO técnico desde el día 1: estructura optimizada, metadatos, velocidad de carga, imágenes en WebP/AVIF y datos estructurados para posicionar en Google.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿Trabajan con clientes fuera de Colombia?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sí. Woxi trabaja de forma 100% remota con clientes de cualquier país y atiende en español, inglés, portugués, francés y alemán.",
+          },
+        },
+        {
+          "@type": "Question",
+          name: "¿Incluye hosting y soporte?",
+          acceptedAnswer: {
+            "@type": "Answer",
+            text: "Sí. Nos encargamos del hosting, el despliegue y el mantenimiento, con backups automáticos diarios y soporte prioritario para que tu sitio funcione desde el primer día.",
+          },
+        },
+      ],
     },
     {
       "@type": "ProfessionalService",

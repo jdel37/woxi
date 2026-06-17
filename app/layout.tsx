@@ -75,11 +75,10 @@ export const metadata: Metadata = {
   alternates: {
     canonical: siteUrl,
   },
-  // Set GOOGLE_SITE_VERIFICATION in Vercel env vars to verify the site in
-  // Google Search Console (the #1 step to get indexed/ranked). Omitted if unset.
-  verification: process.env.GOOGLE_SITE_VERIFICATION
-    ? { google: process.env.GOOGLE_SITE_VERIFICATION }
-    : undefined,
+  // Google Search Console verification token (public meta tag).
+  verification: {
+    google: "NJtHxkNN-z_S6zJR_gD5U5_aXLIOroVSMQ2YcULpZjY",
+  },
 };
 
 const jsonLd = {

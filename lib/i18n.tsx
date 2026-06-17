@@ -473,16 +473,17 @@ interface I18nCtx {
 const I18nContext = createContext<I18nCtx>({} as I18nCtx);
 
 export function I18nProvider({ children }: { children: ReactNode }) {
+  // Default to Spanish so the server renders full crawlable content (matches <html lang="es">).
+  // Client adjusts to the detected/saved language after mount — first client render also
+  // uses "es", so there is no hydration mismatch.
   const [lang, setLangState] = useState<Lang>("es");
   const [currency, setCurrencyState] = useState<Currency>("COP");
-  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     const detected = detectLang();
     setLangState(detected);
     const savedCur = localStorage.getItem("woxi_currency") as Currency | null;
     setCurrencyState(savedCur ?? LANG_CURRENCY[detected]);
-    setReady(true);
   }, []);
 
   const setLang = (l: Lang) => {
@@ -497,8 +498,6 @@ export function I18nProvider({ children }: { children: ReactNode }) {
     setCurrencyState(c);
     localStorage.setItem("woxi_currency", c);
   };
-
-  if (!ready) return null;
 
   return (
     <I18nContext.Provider

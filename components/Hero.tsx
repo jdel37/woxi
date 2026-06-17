@@ -154,7 +154,7 @@ export default function Hero() {
               <div className="relative animate-float">
                 <Image
                   src="/hero-mockup.png"
-                  alt="Mockup de diseño web profesional — WebAgencia"
+                  alt="Mockup de diseño web profesional — Woxi"
                   width={600}
                   height={480}
                   className="w-full h-auto drop-shadow-2xl rounded-2xl"

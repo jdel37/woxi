@@ -1,15 +1,17 @@
 import type { MetadataRoute } from "next";
 
+const siteUrl = "https://woxi.vercel.app";
+
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
         allow: "/",
-        disallow: ["/api/", "/_next/"],
+        disallow: ["/api/", "/admin", "/_next/"],
       },
     ],
-    sitemap: "https://webagencia.com/sitemap.xml",
-    host: "https://webagencia.com",
+    sitemap: `${siteUrl}/sitemap.xml`,
+    host: siteUrl,
   };
 }
